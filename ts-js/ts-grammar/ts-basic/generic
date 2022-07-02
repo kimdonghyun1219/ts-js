@@ -1,0 +1,49 @@
+const getContent = <T extends {}>(content: T):T => {
+    console.log(content);
+    return content;
+}
+getContent<string>('dong'); // type declear: time of call
+
+
+/**
+ *  interface
+ */
+interface Item<T, K> {
+    name: string;
+    price: T;
+    using: string;
+    acheive: K;
+}
+
+const package: Item<number, string> = { name: 'water', price: -10000, using: 'drink', acheive: 'toilet'}
+
+const logTextLength = <T extends {}>(text: T[]):T[] => {
+    console.log(text.length);
+    return text;
+}
+logTextLength(['hi']);
+
+interface LengthType {
+    length: number;
+}
+const logTextLength2 = <T extends LengthType>(text: T):T=> {
+    text.length;
+    return text;
+}
+logTextLength2('a');
+logTextLength2({length: 10});
+
+
+/**
+ *  keyof: generic type have only one of the elements of a keyvalue
+ */
+
+interface ShoppingItem {
+    name: string;
+    price: number;
+    stock: number;
+}
+const getShoppingItemOption = <T extends keyof ShoppingItem>(option: T):T=> {
+    return option;
+}
+getShoppingItemOption("name");
