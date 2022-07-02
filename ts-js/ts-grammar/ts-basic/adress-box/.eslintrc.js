@@ -7,7 +7,9 @@ module.exports = {
     },
     extends: [
       'plugin:@typescript-eslint/eslint-recommended',
-      'plugin:@typescript-eslint/recommended'
+      'plugin:@typescript-eslint/recommended',
+      'prettier',
+      'react-app'
     ],
     plugins: ['prettier', '@typescript-eslint'],
     rules: {
@@ -21,13 +23,15 @@ module.exports = {
           printWidth: 80,
           bracketSpacing: false,
           arrowParens: 'avoid',
+          endOfLine: 'auto'
         },
       ],
       // '@typescript-eslint/no-explicit-any': '',
       // "@typescript-eslint/explicit-function-return-type": 'off',
       'prefer-const': 'off',
+      'linebreak-style': 0,      
     },
     parserOptions: {
       parser: '@typescript-eslint/parser',
-    },
+    },    
   };

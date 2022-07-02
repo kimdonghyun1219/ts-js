@@ -1,0 +1,34 @@
+interface Developer {
+    name: string;
+    skill: string;
+}
+
+interface Person {
+    name: string;
+    age: number;
+}
+
+const introduce = (): Developer | Person => {
+    return { name: 'dong', age: 28, skill: 'good'}
+}
+
+const tom = introduce();
+//console.log(tom.skill); // union -> not access skill
+
+// type access
+if((tom as Developer).skill) {
+    const skill = (tom as Developer).skill;
+} else if((tom as Person).age) {
+    const age = (tom as Person).age;
+}
+
+// type gard
+function isDeleveloper(target: Developer | Person): target is Developer {
+    return (target as Developer).skill !== undefined;
+}
+
+if(isDeleveloper(tom)){
+    tom.skill
+} else {
+    tom.age
+}
