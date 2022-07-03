@@ -1,0 +1,52 @@
+interface Product {
+    id: number,
+    name: string,
+    price: number,
+    brand: string,
+    stock: number
+}
+
+const getProduct = (): Promise<Product[]> => {}
+
+/**
+ *  Pick: use to property 
+ */
+const productDetail = (itmes: Pick<Product, 'id' | 'name' | 'price'>)=> {} // id, name, price
+
+/**
+ *  Omit: remove property
+ */
+const getSales = (item: Omit<Product, 'id' | 'name' | 'price'>)=> {} // brand, stock
+
+/**
+ *  Partial : change optional
+ */
+const updateProduct = (item: Partial<Product>)=>{}
+
+interface Profile {
+    name?: string,
+    tel?:string,
+    photo?: string
+}
+
+// 1
+// type UProfile {
+//     name?: Profile['name'],
+//     tel?: Profile['tel'],
+//     photo?: Profile['photo']
+// }
+
+// 2
+// type UProfile = {
+//     [p in 'name' | 'tel' | 'photo']?: Profile[p]
+// }
+
+// 3
+// type UProfile = {
+//     [p in keyof Profile]?: Profile[p]
+// }
+
+// 4
+type UProfile<T> = {
+    [p in keyof T]?: T[p]
+}
