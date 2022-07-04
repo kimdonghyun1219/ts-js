@@ -1,4 +1,4 @@
-interface Contury {
+export interface Country {
   Country: string;
   CountryCode: string;
   Date: string;
@@ -13,7 +13,7 @@ interface Contury {
   TotalRecovered: number;
 }
 
-interface Global {
+export interface Global {
   Date: string;
   NewConfirmed: number;
   NewDeaths: number;
@@ -24,24 +24,13 @@ interface Global {
 }
 
 export interface CovidSummaryResponse {
-  Countries: Contury[];
-  Data: string;
+  Countries: Country[];
+  Date: string;
   Global: Global;
   Message: string;
-  // Date: "2022-07-03T13:09:43.587Z"
-  // Global: {NewConfirmed: 238857, TotalConfirmed: 547466141, NewDeaths: 437, TotalDeaths: 6333257,…}
-  // Date: "2022-07-03T13:09:43.587Z"
-  // NewConfirmed: 238857
-  // NewDeaths: 437
-  // NewRecovered: 0
-  // TotalConfirmed: 547466141
-  // TotalDeaths: 6333257
-  // TotalRecovered: 0
-  // ID: "dce5cf22-77f8-4a39-8466-a976291c4c8c"
-  // Message: ""
 }
 
-interface CountrySummaryInfo {
+export interface CountrySummaryInfo {
   Cases: number;
   City: string;
   CityCode: string;
