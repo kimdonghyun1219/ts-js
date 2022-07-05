@@ -13,3 +13,9 @@ const b = a as number // b return: number
 document.querySelector('div') // HTMLDivElement | null
 const div = document.querySelector('div') as HTMLDivElement
 div.textContent
+
+/**
+ *  type-assertion
+ */
+let certitude: string | null;
+const result = certitude!.toString();

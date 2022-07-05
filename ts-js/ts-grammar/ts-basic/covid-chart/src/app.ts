@@ -3,22 +3,24 @@ import axios, { AxiosResponse } from "axios";
 import Chart from 'chart.js'
 import { Country, CountrySummaryResponse, CountrySummaryInfo, CovidSummaryResponse } from "./covid/index";
 // utils
-function $(selector: string) {
-    return document.querySelector(selector);
+function $<T extends HTMLElement = HTMLDivElement>(selector: string) {
+    const element = document.querySelector(selector);
+    return element as T;
   }
   function getUnixTimestamp(date: Date | string) {
     return new Date(date).getTime();
   }
   
   
-  // DOM  
-  const confirmedTotal = $('.confirmed-total') as HTMLSpanElement;
+  // DOM
+  const temp = $<HTMLParagraphElement>('.test'); 
+  const confirmedTotal = $<HTMLSpanElement>('.confirmed-total');
   const deathsTotal = $('.deaths') as HTMLParagraphElement;
   const recoveredTotal = $('.recovered') as HTMLParagraphElement;
   const lastUpdatedTime = $('.last-updated-time') as HTMLParagraphElement;
-  const rankList = $('.rank-list');
-  const deathsList = $('.deaths-list');
-  const recoveredList = $('.recovered-list');
+  const rankList = $('.rank-list') as HTMLOListElement;
+  const deathsList = $('.deaths-list') as HTMLOListElement;
+  const recoveredList = $('.recovered-list') as HTMLOListElement;
   const deathSpinner = createSpinnerElement('deaths-spinner');
   const recoveredSpinner = createSpinnerElement('recovered-spinner');
   
@@ -52,7 +54,7 @@ function $(selector: string) {
     Deaths = 'deaths'
   }
   
-  function fetchCountryInfo(countryCode: string, status: CovidStatus): Promise<AxiosResponse<CountrySummaryResponse>> {
+  function fetchCountryInfo(countryCode: string | undefined, status: CovidStatus): Promise<AxiosResponse<CountrySummaryResponse>> {
     // params: confirmed, recovered, deaths
     const url = `https://api.covid19api.com/country/${countryCode}/status/${status}`;
     return axios.get(url);
@@ -65,17 +67,23 @@ function $(selector: string) {
   }
   
   // events
-  function initEvents() {
-    rankList.addEventListener('click', handleListClick);
+  function initEvents() {    
+    rankList!.addEventListener('click', handleListClick);
   }
-  
-  async function handleListClick(event: MouseEvent) {
+
+  /*
+  const event1: Event
+  const event2: UIEvent
+  const event3: MouseEvent
+  */
+
+  async function handleListClick(event: Event) {
     let selectedId;
     if (
       event.target instanceof HTMLParagraphElement ||
       event.target instanceof HTMLSpanElement
     ) {
-      selectedId = event.target.parentElement.id;
+      selectedId = event.target.parentElement?.id;
     }
     if (event.target instanceof HTMLLIElement) {
       selectedId = event.target.id;
@@ -119,12 +127,12 @@ function $(selector: string) {
       p.textContent = new Date(value.Date).toLocaleDateString().slice(0, -1);
       li.appendChild(span);
       li.appendChild(p);
-      deathsList.appendChild(li);
+      deathsList!.appendChild(li);
     });
   }
   
   function clearDeathList() {
-    deathsList.innerHTML = null;
+    deathsList.innerHTML = '';
   }
   
   function setTotalDeathsByCountry(data: CountrySummaryResponse) {
@@ -145,12 +153,12 @@ function $(selector: string) {
       p.textContent = new Date(value.Date).toLocaleDateString().slice(0, -1);
       li.appendChild(span);
       li.appendChild(p);
-      recoveredList.appendChild(li);
+      recoveredList?.appendChild(li);
     });
   }
   
-  function clearRecoveredList() {
-    recoveredList.innerHTML = null;
+  function clearRecoveredList() {    
+    recoveredList.innerHTML = '';
   }
   
   function setTotalRecoveredByCountry(data: CountrySummaryResponse) {
@@ -158,13 +166,14 @@ function $(selector: string) {
   }
   
   function startLoadingAnimation() {
+    if(!deathsList) return;
     deathsList.appendChild(deathSpinner);
-    recoveredList.appendChild(recoveredSpinner);
+    recoveredList?.appendChild(recoveredSpinner);
   }
   
   function endLoadingAnimation() {
-    deathsList.removeChild(deathSpinner);
-    recoveredList.removeChild(recoveredSpinner);
+    deathsList?.removeChild(deathSpinner);
+    recoveredList?.removeChild(recoveredSpinner);
   }
   
   async function setupData() {
@@ -244,7 +253,7 @@ function $(selector: string) {
       p.textContent = value.Country;
       li.appendChild(span);
       li.appendChild(p);
-      rankList.appendChild(li);
+      rankList?.appendChild(li);
     });
   }
   

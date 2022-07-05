@@ -14,4 +14,3 @@ const shoppingItem: Detail<string> = {
     value: 'great',
     tag: 'um'
 }
-
